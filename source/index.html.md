@@ -31,7 +31,7 @@ Welcome to the KPN SenML API documentation! You can use our library for the crea
 - extensible for new data types
 - makes use of (but doesn't restrict to) KPN's predefined list of record names.
 - direct support to read/write in json and cbor format.
-- automatically adjusts record values with respect to base time, base value & base sum.
+- automatically adjusts record data with respect to base time, base value & base sum.
 - The C++ version of the library is optimized for devices with restricted memory requirements (runs on AVR systems with 2kb ram). 
 
 # getting started
