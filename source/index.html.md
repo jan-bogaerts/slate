@@ -231,6 +231,8 @@ Although it is possible that you assign your own name to a record, it is recomme
 Both parameters are supplied through the constructor of the SenMlRecords.  
 According to the SenML specifications, all names are optional, so you don't have to declare a base name on the SenMLPack object nor a name for SenMLRecords.  This makes it harder though to identify your data. In general, it is advisable to specify the name of the device as the base name and the name of the sensor as the record name. Alternatively, you can skip the base name and put both device and sensor name in the record, in this format: `device:sensor`.
 
+<aside class="info">Although not required by the SenML specification, it is always best to specify device and sensor names.</aside>
+
 ## associating records with a document
 
 ```c--arduino  
@@ -253,7 +255,7 @@ SenmlRecord(SenmlNames.KPN_SENML_TEMPERATURE, unit=SenmlUnits.SENML_UNIT_DEGREES
 doc.add(rec)
 ```
 
-You can add records to the document with the function `add`. This can be done statically (add once at start up and never remove ) for devices that will always send out the same document structure with the same records. Or, you can dynamically add records to the document as your application progresses. A common use case for this method is for situations where the device does not have network connectivity at the moment that the measurement is taken, but instead, takes a number of measurements, and, when a connection is available, uploads all the measurements at once.  This method is useful to minimize the number of communication packets that a device uses by grouping measurements.  
+You can add records to the document with the function `add`. This can be done statically (add once at start up and never remove ) for devices that will always send out the same document structure with the same records. Or, you can dynamically add records to the document as your application progresses. A common use case for this method is when the device does not have network connectivity at the moment that the measurement is taken, but instead, takes a number of measurements, and, when a connection is available, uploads all the measurements at once.  This method is also useful to minimize the number of communication packets that a device sends out by grouping multiple measurements into a single data packet.  
 
 ```c--arduino  
 doc.clear();                      
@@ -274,7 +276,7 @@ doc.clear()
 For documents that work with a dynamically sized list of records, you can clear out the list once the data has been sent.  
 Alternatively ,when SenMlRecords go out of scope or are deleted, they remove themselves automatically from their root document.   
 
-<aside class="warning">In C++, you are still responsible for destroying objects. If you dynamically created a SenMLRecord, added it to the list and then cleared it, you must still delete the object yourself. Otherwise you will have memory leaks.</aside>
+<aside class="warning">In C++, you are still responsible for destroying objects. If you dynamically created a SenMLRecord, added it to the list and then cleared that list, you must still delete the object yourself in order to avoid memory leaks.</aside>
 
 ## loop over the records
 
@@ -327,7 +329,7 @@ To walk over the child list of a SenMLPack, you can use the following functions:
 - SenMLBase::getNext()  : get the next item in the list. When this returns NULL, the end of the list has been reached.
 
 ### python
-Internally, the python versions use standard python arrays to store the data. The child list of a SenMLPack is exposed through an iterator. This way, you can use the standard loop features of
+Internally, the python versions use standard python arrays to store the data. The list of a SenMLPack is exposed through an iterator. This way, you can use the standard loop features of
 python to walk over the list.
 
 ## gateways
@@ -483,7 +485,7 @@ The C++ version of the rendering engine has the following features and character
 - The engine can add a final step in the rendering process where the raw data (string or binary ) is converted into HEX format. This is useful while rendering directly to a stream that expects hex data, which is the case for many lora modules.
 - for each value that has to be rendered, all stages are done before moving on to the next value: each value gets converted to json or cbor, hexified and rendered to the output before moving on to the next value. This is also done to save memory.
 
-<aside class="info">HEX values can be formatted in many different ways. The library can currently produce a layout used by microchip lora modems, which is in the form of: 'ABABAB'. If the format that you need isn't supported, you will have to perform this final step yourself: first render to a memory blob, then walk over each value and convert it into HEX in the way that you need.</aside>
+<aside class="info">HEX values can be formatted in many different ways. The library can currently produce a layout used by microchip lora modems, which is in the form of: 'ABF123'. If the format that you need isn't supported, you will have to perform this final step yourself: first render to a memory blob, then walk over each value and convert it into HEX in the way that you need.</aside>
 
 ### python
 ![rendering steps](render_python.png)  
@@ -606,10 +608,10 @@ cbor_data =  binascii.unhexlify("81A4216B6465766963655F6E616D65006474656D7001634
 pack.from_cbor(cbor_data)
 ```
 
-Extracting the appropriate information out of senml objects and converting it into the proper format can be a bit tedious on embedded devices. The senml library can help you with this so that it becomes easy to send senml messages to your device as actuator commands (send instructions to your devices).  It provides a parsing engine that can handle both json and cbor senml data.  
+Extracting the appropriate information out of senml objects and converting it into the proper format so that the information can be used to drive actuators, can be a bit tedious on embedded devices. The senml library can help you with this so that it becomes easy to send senml messages to your device as actuator commands (send instructions to your devices).  It provides a parsing engine that can handle both json and cbor senml data.  
 To process a senml message and retrieve the values, you can use the 'fromJson' or 'fromCbor' functions.  The values found in the message get passed to your application by means of callback functions that you attach to the SenMlPacket object and/or the SenMlRecords.  
-If you have a static list of records in your document, you can declare all the objects once, at the beginning, just like for rendering. The only difference here is that you have to attach a callback to each record for which you want to receive events.  During parsing, each callback will be executed when the record is found in the data.  Check out [here](#statically-declared-actuators) for an example.  
-If your device will receive a dynamic list of records or you want to have a 'catch-all' for unknown records found in the message, than you should attach a callback to the root SenmlPack document. This function gets called for every record found in the data that can't be passed on to a known SenMLRecord. Besides the actual value, which is passed on as a generic void pointer, you also receive the name of the device, record and the data type so that your application can figure out what it should do for the specified data.    
+If you have a static list of records in your document, you can declare all the objects once, at the beginning, just like for rendering. The only difference here is that you have to attach a callback to each record for which you want to receive events.  During parsing, each callback will be executed when the record is found in the data.   
+If your device will receive a dynamic list of records or you want to have a 'catch-all' for unknown records found in the message, than you should attach a callback to the root SenmlPack document. This function gets called for every record found in the data that can't be passed on to a known SenMLRecord. Besides the actual value, which is passed on as a generic void pointer, you also receive the name of the device, the name of the record and the data type so that your application can figure out what it should do for the specified data.    
   
 
 <aside class="warning">It is up to you to determine if all expected records were present in the data or not.  The library does not check for this, but only passes on the values it can find to your applications.</aside>
