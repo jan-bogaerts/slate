@@ -228,6 +228,9 @@
             <a href="#key-features" class="toc-h1 toc-link" data-title="key-features">key features</a>
           </li>
           <li>
+            <a href="#supported-platforms" class="toc-h1 toc-link" data-title="supported-platforms">supported platforms</a>
+          </li>
+          <li>
             <a href="#getting-started" class="toc-h1 toc-link" data-title="getting-started">getting started</a>
               <ul class="toc-list-h2">
                   <li>
@@ -295,6 +298,30 @@
 <li>automatically adjusts record data with respect to base time, base value &amp; base sum.</li>
 <li>The C++ version of the library is optimized for devices with restricted memory requirements (runs on AVR systems with 2kb ram). </li>
 </ul>
+<h1 id='supported-platforms'>supported platforms</h1>
+<p>The library has been tested on the following devices:</p>
+
+<ul>
+<li>C++:
+
+<ul>
+<li>arduino leonardo (through <a href="https://www.kickstarter.com/projects/688158475/marvin-the-lora-development-board/description">the marvin</a> lorawan board)</li>
+<li><a href="https://os.mbed.com/platforms/mbed-LPC1768/">mbed LPC1768</a></li>
+<li><a href="https://shop.sodaq.com/en/sodaq-one-eu-rn2483-v3.html">Sodaq one</a></li>
+</ul></li>
+<li>Python
+
+<ul>
+<li>raspberry 3</li>
+<li>pc</li>
+</ul></li>
+<li>micro-python
+
+<ul>
+<li><a href="https://pycom.io/hardware/gpy-specs/">gpy</a></li>
+<li><a href="https://pycom.io/hardware/wipy-3-0-specs/">wipy</a></li>
+</ul></li>
+</ul>
 <h1 id='getting-started'>getting started</h1><h2 id='installation'>installation</h2>
 <blockquote class="lang-specific c--arduino">
 <p>Get it from <a href="http://www.github.com">github</a> </p>
@@ -342,6 +369,7 @@
 
 <ul>
 <li>Follow <a href="https://www.arduino.cc/en/Guide/Libraries">these instructions</a> to install the library in the arduino ide.</li>
+<li>For AVR systems like the marvin, you will need the following external library: <a href="https://github.com/adamvr/arduino-base64">Base64</a></li>
 </ul></li>
 <li>mbed: on the mbed online editor:
 
@@ -351,7 +379,8 @@
 <li>search for senml-kpn</li>
 <li>double click on the search result which will start the import process.</li>
 </ul></li>
-<li>python: use pip to install the library<br></li>
+<li>python: use pip to install the library:
+<code>pip install kpn-senml</code><br></li>
 <li>micropython:
 
 <ul>
@@ -380,7 +409,6 @@
     <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">A1</span><span class="p">);</span>  
     <span class="n">SenMLFloatRecord</span> <span class="n">rec</span><span class="p">(</span><span class="n">KPN_SENML_TEMPERATURE</span><span class="p">,</span> <span class="n">SENML_UNIT_DEGREES_CELSIUS</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
     <span class="n">doc</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rec</span><span class="p">);</span>                      
-<span class="p">}</span>
 </code></pre><pre class="highlight c tab-c--mbed"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// check mypin object is initialized and connected to a pin
 </span>    <span class="k">if</span><span class="p">(</span><span class="n">mypin</span><span class="p">.</span><span class="n">is_connected</span><span class="p">())</span> <span class="p">{</span>
@@ -391,8 +419,6 @@
         <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">mypin</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
         <span class="n">SenMLFloatRecord</span> <span class="n">rec</span><span class="p">(</span><span class="n">KPN_SENML_TEMPERATURE</span><span class="p">,</span> <span class="n">SENML_UNIT_DEGREES_CELSIUS</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
         <span class="n">doc</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rec</span><span class="p">);</span>                      
-    <span class="p">}</span>
-<span class="p">}</span>
 </code></pre><pre class="highlight python tab-python--micro"><code><span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">SenmlRecord</span><span class="p">(</span><span class="n">SenmlNames</span><span class="o">.</span><span class="n">KPN_SENML_TEMPERATURE</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">SenmlUnits</span><span class="o">.</span><span class="n">SENML_UNIT_DEGREES_CELSIUS</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">23.5</span><span class="p">)</span> <span class="k">as</span> <span class="n">rec</span><span class="p">:</span>         
         <span class="n">doc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
@@ -401,12 +427,15 @@
         <span class="n">doc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
 </code></pre>
 <ul>
-<li>Measurement values are added to the document through objects of the type SenMlRecord (for C++ versions this will be one of it&#39;s descendants ). These can also be global, statically declared objects or they can be local to a function. These always need to have a value or sum, but usually you also give records a name and measurement unit. The library contains a set of predefined values for both. Although you are free to pick any record name that you want, this is not the case for the units. This list is fixed.</li>
+<li>Measurement values are added to the document through objects of the type SenMlRecord (for C++ versions this will be one of it&#39;s descendants as there is a class for each data type ). These can also be global, statically declared objects or they can be local to a function. These always need to have a value or sum, but usually you also give records a name and measurement unit. The library contains a set of predefined values for both records a name and measurement unit. Although you are free to pick any record name that you want, this is not the case for the units. This list is fixed.</li>
 </ul>
 <pre class="highlight c tab-c--arduino"><code>    <span class="n">doc</span><span class="p">.</span><span class="n">toJson</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Serial</span><span class="p">);</span>        <span class="c1">//print to screen
-</span></code></pre><pre class="highlight c tab-c--mbed"><code>        <span class="n">Serial</span> <span class="n">pc</span><span class="p">(</span><span class="n">USBTX</span><span class="p">,</span> <span class="n">USBRX</span><span class="p">);</span>
+</span><span class="p">}</span>
+</code></pre><pre class="highlight c tab-c--mbed"><code>        <span class="n">Serial</span> <span class="n">pc</span><span class="p">(</span><span class="n">USBTX</span><span class="p">,</span> <span class="n">USBRX</span><span class="p">);</span>
         <span class="n">doc</span><span class="p">.</span><span class="n">toJson</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pc</span><span class="p">);</span>        <span class="c1">//print to screen
 </span>        <span class="n">pc</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n\r</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre><pre class="highlight python tab-python--micro"><code>        <span class="k">print</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
 </code></pre><pre class="highlight python tab-python--python"><code>        <span class="k">print</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
 </code></pre>
