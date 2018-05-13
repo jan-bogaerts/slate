@@ -34,6 +34,21 @@ Welcome to the KPN SenML API documentation! You can use our library for the crea
 - automatically adjusts record data with respect to base time, base value & base sum.
 - The C++ version of the library is optimized for devices with restricted memory requirements (runs on AVR systems with 2kb ram). 
 
+# supported platforms
+
+The library has been tested on the following devices:
+
+- C++:
+    - arduino leonardo (through [the marvin](https://www.kickstarter.com/projects/688158475/marvin-the-lora-development-board/description) lorawan board)
+    - [mbed LPC1768](https://os.mbed.com/platforms/mbed-LPC1768/)
+    - [Sodaq one](https://shop.sodaq.com/en/sodaq-one-eu-rn2483-v3.html)
+- Python
+    - raspberry 3
+    - pc
+- micro-python
+    - [gpy](https://pycom.io/hardware/gpy-specs/)
+    - [wipy](https://pycom.io/hardware/wipy-3-0-specs/)
+
 # getting started
 
 ## installation
@@ -79,12 +94,14 @@ Welcome to the KPN SenML API documentation! You can use our library for the crea
 - Installation:
     - *arduino*: 
       - Follow [these instructions](https://www.arduino.cc/en/Guide/Libraries) to install the library in the arduino ide.
+      - For AVR systems like the marvin, you will need the following external library: [Base64](https://github.com/adamvr/arduino-base64)
     - mbed: on the mbed online editor:
       - create or open a project
       - right click on the project and select 'import library/from import wizard'
       - search for senml-kpn
       - double click on the search result which will start the import process.
-    - python: use pip to install the library    
+    - python: use pip to install the library:
+    ```pip install kpn-senml```    
     - micropython:
       - download the library 
       - extract the content of the zip file and put the library files (don't need the examples in your own project) in the 'lib' directory of your project.
@@ -133,7 +150,6 @@ void loop(){
     int val = analogRead(A1);  
     SenMLFloatRecord rec(KPN_SENML_TEMPERATURE, SENML_UNIT_DEGREES_CELSIUS, val);
     doc.add(&rec);                      
-}
 ```
 
 ```c--mbed
@@ -147,8 +163,6 @@ int main() {
         int val = mypin.read();
         SenMLFloatRecord rec(KPN_SENML_TEMPERATURE, SENML_UNIT_DEGREES_CELSIUS, val);
         doc.add(&rec);                      
-    }
-}
 ```
 
 ```python--micro
@@ -163,16 +177,19 @@ while True:
         doc.add(rec)
 ```
 
-- Measurement values are added to the document through objects of the type SenMlRecord (for C++ versions this will be one of it's descendants ). These can also be global, statically declared objects or they can be local to a function. These always need to have a value or sum, but usually you also give records a name and measurement unit. The library contains a set of predefined values for both. Although you are free to pick any record name that you want, this is not the case for the units. This list is fixed.
+- Measurement values are added to the document through objects of the type SenMlRecord (for C++ versions this will be one of it's descendants as there is a class for each data type ). These can also be global, statically declared objects or they can be local to a function. These always need to have a value or sum, but usually you also give records a name and measurement unit. The library contains a set of predefined values for both records a name and measurement unit. Although you are free to pick any record name that you want, this is not the case for the units. This list is fixed.
 
 ```c--arduino
     doc.toJson(&Serial);        //print to screen
+}
 ```
 
 ```c--mbed
         Serial pc(USBTX, USBRX);
         doc.toJson(&pc);        //print to screen
         pc.printf("\n\r");
+    }
+}
 ```
 
 ```python--micro
