@@ -7,9 +7,6 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - python--python: python
   - python--micro: micro-python
 
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
 
@@ -54,7 +51,7 @@ The library has been tested on the following devices:
 ## installation
 
 <blockquote class="lang-specific c--arduino">
-<p>Get it from <a href="http://www.github.com">github</a> </p>
+<p>Get it from <a href="https://github.com/kpn-iot/senml-c-library">github</a> </p>
 </blockquote>
 
 <blockquote class="lang-specific c--mbed">
@@ -68,7 +65,7 @@ The library has been tested on the following devices:
 </blockquote>
 
 <blockquote class="lang-specific python--micro">
-  <p>Get it from <a href="http://www.github.com">github</a> </p>
+  <p>Get it from <a href="https://github.com/kpn-iot/senml-micropython-library">github</a> </p>
 </blockquote>
 
 <blockquote class="lang-specific python--micro">
