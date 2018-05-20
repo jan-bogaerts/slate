@@ -15,7 +15,8 @@ search: true
 
 # Introduction
 
-Welcome to the KPN SenML API documentation! You can use our library for the creation of [senml documents](https://tools.ietf.org/html/draft-ietf-core-senml-13) on embedded devices so you can transport and/or receive data in a uniform way to and from devices using a communication protocol of your choice.
+Welcome to the KPN SenML API documentation! You can use our library for the creation of [senml documents](https://tools.ietf.org/html/draft-ietf-core-senml-13) on embedded devices so you can transport and/or receive data in a uniform way to and from devices using a communication protocol of your choice.  
+For an indepth look into what senml is and what it can mean for you, check out [this article](http://www.elastetic.com/wp/2018/05/20/senml-messages/).
 
 # key features
 
@@ -39,6 +40,7 @@ The library has been tested on the following devices:
     - arduino leonardo (through [the marvin](https://www.kickstarter.com/projects/688158475/marvin-the-lora-development-board/description) lorawan board)
     - [mbed LPC1768](https://os.mbed.com/platforms/mbed-LPC1768/)
     - [Sodaq one](https://shop.sodaq.com/en/sodaq-one-eu-rn2483-v3.html)
+    - [Esp32](https://www.espressif.com/en/products/hardware/esp32/overview)
 - Python
     - raspberry 3
     - pc
@@ -96,7 +98,12 @@ The library has been tested on the following devices:
       - create or open a project
       - right click on the project and select 'import library/from import wizard'
       - search for senml-kpn
-      - double click on the search result which will start the import process.
+      - double click on the library which will start the import process.
+      - This library depends on another library for base64 support called mbedtls.  This has to be included separatly into your project for some boards like the LPC1768), others already have this library built into the os lib like the MAX32620FTHR.  To import the library follow these steps:
+        - right click on the project and select 'import library/from import wizard'
+        - search for mbedtls (in the search box, it's best to type in tls)
+        - double click on the library which will start the import process.
+        - if your system complains about some functions being declared 2 times, remove the mbedtls library and rebuild.
     - python: use pip to install the library:
     ```pip install kpn-senml```    
     - micropython:
@@ -650,4 +657,8 @@ For the C++ version of the library, it can also be useful to add support for mor
 
 # examples
 
-See the repositories for code example of all the features.
+See the repositories for code example of all the features:
+
+- [C++](https://github.com/kpn-iot/senml-c-library/tree/master/examples)
+- [python](https://github.com/kpn-iot/senml-python-library/tree/master/examples)
+- [micro-python](https://github.com/kpn-iot/senml-micropython-library/tree/master/examples)
