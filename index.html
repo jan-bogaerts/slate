@@ -274,16 +274,13 @@
             <a href="#examples" class="toc-h1 toc-link" data-title="examples">examples</a>
           </li>
       </div>
-        <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the KPN SenML API documentation! You can use our library for the creation of <a href="https://tools.ietf.org/html/draft-ietf-core-senml-13">senml documents</a> on embedded devices so you can transport and/or receive data in a uniform way to and from devices using a communication protocol of your choice.</p>
+<p>Welcome to the KPN SenML API documentation! You can use our library for the creation of <a href="https://tools.ietf.org/html/draft-ietf-core-senml-13">senml documents</a> on embedded devices so you can transport and/or receive data in a uniform way to and from devices using a communication protocol of your choice.<br>
+For an indepth look into what senml is and what it can mean for you, check out <a href="http://www.elastetic.com/wp/2018/05/20/senml-messages/">this article</a>.</p>
 <h1 id='key-features'>key features</h1>
 <blockquote class="lang-specific python--python python--micro">
 <p>Note: The python versions do not provide extended support for memory restricted devices</p>
@@ -308,6 +305,7 @@
 <li>arduino leonardo (through <a href="https://www.kickstarter.com/projects/688158475/marvin-the-lora-development-board/description">the marvin</a> lorawan board)</li>
 <li><a href="https://os.mbed.com/platforms/mbed-LPC1768/">mbed LPC1768</a></li>
 <li><a href="https://shop.sodaq.com/en/sodaq-one-eu-rn2483-v3.html">Sodaq one</a></li>
+<li><a href="https://www.espressif.com/en/products/hardware/esp32/overview">Esp32</a></li>
 </ul></li>
 <li>Python
 
@@ -324,7 +322,7 @@
 </ul>
 <h1 id='getting-started'>getting started</h1><h2 id='installation'>installation</h2>
 <blockquote class="lang-specific c--arduino">
-<p>Get it from <a href="http://www.github.com">github</a> </p>
+<p>Get it from <a href="https://github.com/kpn-iot/senml-c-library">github</a> </p>
 </blockquote>
 
 <blockquote class="lang-specific c--mbed">
@@ -338,7 +336,7 @@
 </blockquote>
 
 <blockquote class="lang-specific python--micro">
-  <p>Get it from <a href="http://www.github.com">github</a> </p>
+  <p>Get it from <a href="https://github.com/kpn-iot/senml-micropython-library">github</a> </p>
 </blockquote>
 
 <blockquote class="lang-specific python--micro">
@@ -377,7 +375,12 @@
 <li>create or open a project</li>
 <li>right click on the project and select &#39;import library/from import wizard&#39;</li>
 <li>search for senml-kpn</li>
-<li>double click on the search result which will start the import process.</li>
+<li>double click on the library which will start the import process.</li>
+<li>This library depends on another library for base64 support called mbedtls.  This has to be included separatly into your project for some boards like the LPC1768), others already have this library built into the os lib like the MAX32620FTHR.  To import the library follow these steps:</li>
+<li>right click on the project and select &#39;import library/from import wizard&#39;</li>
+<li>search for mbedtls (in the search box, it&#39;s best to type in tls)</li>
+<li>double click on the library which will start the import process.</li>
+<li>if your system complains about some functions being declared 2 times, remove the mbedtls library and rebuild.</li>
 </ul></li>
 <li>python: use pip to install the library:
 <code>pip install kpn-senml</code><br></li>
@@ -815,7 +818,13 @@ If your device will receive a dynamic list of records or you want to have a &#39
 <p>It is possible to create your own, custom SenMlRecord classes. This can be used to provide support for more complex data types than already available in the library.  For instance, if you would like to work with a single SenMLRecord to represent location info (lat/lng/alt instead of 3 individual ones, than you could create a new class that inherits from the SenMlRecord that re-implement the rendering and parsing functions.<br>
 For the C++ version of the library, it can also be useful to add support for more basic data types such as longlong. This can easily be done through the SenMLRecordTemplate<T> class which already implements a lot of the functionality needed for records that wrap a basic data type. You can check out some of the existing implementations, such as SenMLIntRecord for inspiration.</p>
 <h1 id='examples'>examples</h1>
-<p>See the repositories for code example of all the features.</p>
+<p>See the repositories for code example of all the features:</p>
+
+<ul>
+<li><a href="https://github.com/kpn-iot/senml-c-library/tree/master/examples">C++</a></li>
+<li><a href="https://github.com/kpn-iot/senml-python-library/tree/master/examples">python</a></li>
+<li><a href="https://github.com/kpn-iot/senml-micropython-library/tree/master/examples">micro-python</a></li>
+</ul>
 
       </div>
       <div class="dark-box">
