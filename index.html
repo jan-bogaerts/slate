@@ -326,7 +326,7 @@ For an indepth look into what senml is and what it can mean for you, check out <
 </blockquote>
 
 <blockquote class="lang-specific c--mbed">
-<p>You can import it directly from within the mbed online editor. Search for the library senml-kpn</p>
+<p>You can import it using this link: <a href="https://os.mbed.com/users/kpniot/code/senml/">mbed senml library</a>  (click on 'import into compiler) or directly from within the mbed online editor. Search for the library senml</p>
 </blockquote>
 
 <blockquote class="lang-specific python--python">
@@ -373,9 +373,14 @@ For an indepth look into what senml is and what it can mean for you, check out <
 
 <ul>
 <li>create or open a project</li>
-<li>right click on the project and select &#39;import library/from import wizard&#39;</li>
-<li>search for senml-kpn</li>
-<li>double click on the library which will start the import process.</li>
+<li>right click on the project and select &#39;import library&#39;</li>
+<li>if you select from url, use the <a href="https://os.mbed.com/users/kpniot/code/senml/">mbed senml library</a></li>
+<li>if you select: &#39;from import wizard&#39;:
+
+<ul>
+<li>search for &#39;senml&#39;</li>
+<li>double click on the search result which will start the import process.</li>
+</ul></li>
 <li>This library depends on another library for base64 support called mbedtls.  This has to be included separatly into your project for some boards like the LPC1768), others already have this library built into the os lib like the MAX32620FTHR.  To import the library follow these steps:</li>
 <li>right click on the project and select &#39;import library/from import wizard&#39;</li>
 <li>search for mbedtls (in the search box, it&#39;s best to type in tls)</li>
