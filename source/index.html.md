@@ -57,7 +57,7 @@ The library has been tested on the following devices:
 </blockquote>
 
 <blockquote class="lang-specific c--mbed">
-<p>You can import it directly from within the mbed online editor. Search for the library senml-kpn</p>
+<p>You can import it using this link: <a href="https://os.mbed.com/users/kpniot/code/senml/">mbed senml library</a>  (click on 'import into compiler) or directly from within the mbed online editor. Search for the library senml</p>
 </blockquote>
 
 <blockquote class="lang-specific python--python">
@@ -96,9 +96,11 @@ The library has been tested on the following devices:
       - For AVR systems like the marvin, you will need the following external library: [Base64](https://github.com/adamvr/arduino-base64)
     - mbed: on the mbed online editor:
       - create or open a project
-      - right click on the project and select 'import library/from import wizard'
-      - search for senml-kpn
-      - double click on the library which will start the import process.
+      - right click on the project and select 'import library'
+        - if you select from url, use the <a href="https://os.mbed.com/users/kpniot/code/senml/">mbed senml library</a>
+        - if you select: 'from import wizard':
+            - search for 'senml'
+            - double click on the search result which will start the import process.
       - This library depends on another library for base64 support called mbedtls.  This has to be included separatly into your project for some boards like the LPC1768), others already have this library built into the os lib like the MAX32620FTHR.  To import the library follow these steps:
         - right click on the project and select 'import library/from import wizard'
         - search for mbedtls (in the search box, it's best to type in tls)
